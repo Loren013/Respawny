@@ -1,2 +1,6 @@
 #radius of square where player will be respawned after death (negative values are converted to positive values)
 radius-of-respawn: 100
+#minimum distance from the respawn point to the point of death
+minimum-distance-from-death: 80
+#max times plugin will  check if the spawn-location is suitable, don't change it from default if you haven't encountered any performance issues
+max-times-check-spawn-location: 100

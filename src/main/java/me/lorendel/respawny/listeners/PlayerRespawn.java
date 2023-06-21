@@ -1,5 +1,4 @@
 package me.lorendel.respawny.listeners;
-
 import me.lorendel.respawny.Respawny;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,10 +22,10 @@ public class PlayerRespawn implements Listener {
         int realRadius = Math.abs(radius);
 
         Player p = e.getPlayer();
-        Location currentLocation = p.getLocation();
+        int i = 0;
 
-        boolean safe = false;
-        while (!safe){
+        boolean suitable = false;
+        while (!suitable && i < plugin.getConfig().getInt("max-times-check-spawn-location")){
 
         int x = p.getLocation().getBlockX() + ThreadLocalRandom.current().nextInt(-realRadius, realRadius + 1);
         int z = p.getLocation().getBlockZ() + ThreadLocalRandom.current().nextInt(-realRadius, realRadius + 1);
@@ -36,20 +35,37 @@ public class PlayerRespawn implements Listener {
         int y = block.getY() + 1;
 
         Material material = block.getType();
+        int distance_x = p.getLocation().getBlockX() - x;
+        int distance_z = p.getLocation().getBlockZ() - z;
+        int half = (int)Math.pow(distance_x, 2) + (int)Math.pow(distance_z, 2);
+        int real_distance = (int)Math.sqrt(half);
 
-        if(material != Material.WATER && material != Material.LAVA && material != Material.ACACIA_LEAVES
-                && material != Material.BIRCH_LEAVES && material != Material.OAK_LEAVES && material != Material.DARK_OAK_LEAVES
-                && material != Material.JUNGLE_LEAVES && material != Material.AZALEA_LEAVES && material != Material.SPRUCE_LEAVES
-                && material != Material.FLOWERING_AZALEA && material != Material.MANGROVE_LEAVES){
+        if(!(block.isEmpty() || block.isLiquid()) && checkLeaves(material) && real_distance >= plugin.getConfig().getInt("minimum-distance-from-death")){
 
-            safe = true;
             Location newLocation = new Location(p.getWorld(), x, y, z);
+            suitable = true;
+
             e.setRespawnLocation(newLocation);
-            p.sendMessage(ChatColor.GREEN + "You were spawned nearby to your death location!");
+            p.sendMessage(ChatColor.GREEN + "You have been spawned nearby to your death location! " + real_distance + " blocks away.");
 
             }
+        i++;
+        }
 
+        if(!suitable){
+            e.setRespawnLocation(p.getWorld().getSpawnLocation());
+            p.sendMessage("You have been spawned on default world spawn location!");
+        }
+
+    }
+    public boolean checkLeaves(Material m) {
+        if (m.toString().equals("BIRCH_LEAVES") || m.toString().equals("OAK_LEAVES") ||
+                m.toString().equals("DARK_OAK_LEAVES") || m.toString().equals("JUNGLE_LEAVES") ||
+                m.toString().equals("AZALEA_LEAVES") || m.toString().equals("SPRUCE_LEAVES")
+                || m.toString().equals("FLOWERING_AZALEA") || m.toString().equals("MANGROVE_LEAVES")) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
-
