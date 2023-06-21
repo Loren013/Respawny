@@ -1,0 +1,2 @@
+#radius of square where player will be respawned after death (negative values are converted to positive values)
+radius-of-respawn: 100

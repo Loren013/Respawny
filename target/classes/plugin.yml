@@ -1,0 +1,4 @@
+name: Respawny
+version: '1.0-SNAPSHOT'
+main: me.lorendel.respawny.Respawny
+api-version: 1.19

@@ -1,0 +1,4 @@
+name: Respawny
+version: '${project.version}'
+main: me.lorendel.respawny.Respawny
+api-version: 1.19
