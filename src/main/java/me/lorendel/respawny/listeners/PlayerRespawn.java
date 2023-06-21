@@ -46,8 +46,9 @@ public class PlayerRespawn implements Listener {
             suitable = true;
 
             e.setRespawnLocation(newLocation);
+            if(plugin.getConfig().getBoolean("show-message-on-respawn")){
             p.sendMessage(ChatColor.GREEN + "You have been spawned nearby to your death location! " + real_distance + " blocks away.");
-
+            }
             }
         i++;
         }

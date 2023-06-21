@@ -4,3 +4,5 @@ radius-of-respawn: 100
 minimum-distance-from-death: 80
 #max times plugin will  check if the spawn-location is suitable, don't change it from default if you haven't encountered any performance issues
 max-times-check-spawn-location: 100
+#show message on respawn
+show-message-on-respawn: true
